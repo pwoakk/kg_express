@@ -67,6 +67,10 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                # my context-processors:
+                'backend.apps.product.category_context.get_categories',
+                'backend.apps.product.category_context.get_subcategories',
             ],
         },
     },

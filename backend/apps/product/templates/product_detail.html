@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>{{product.name}}</h1>
+    <h5>Цена -  {{ product.price|floatformat:0 }} сом</h5>
+    <img src="{{ product.image.url }}" alt="Фото не найдено" width="400">
+    <p>{{ product.description }}</p>
+{% endblock %}

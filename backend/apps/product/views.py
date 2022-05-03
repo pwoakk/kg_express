@@ -27,4 +27,8 @@ class ProductListView(generic.ListView):
 
 
 class ProductDetailView(generic.DetailView):
-    pass
+    template_name = 'product_detail.html'
+    model = Product
+    context_object_name = 'product'     # стандартный это object
+    # slug_field = 'id'
+    # slug_url_kwarg = 'pk'     # под капотом DetailView сам вытаскивает pk
