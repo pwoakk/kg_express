@@ -19,12 +19,21 @@ class IndexPage(generic.TemplateView):
 
 class ProductListView(generic.ListView):
     template_name = 'product_list.html'
-    paginate_by = 20
+    paginate_by = 10
     model = Product
-    queryset = Product.objects.filter(is_active=True)
-    context_object_name = 'products'
     # стандартное имя списка продуктов в шаблоне для ListView = object_list
 
+    def get_queryset(self):
+        print(self.kwargs)
+        category_slug = self.kwargs.get('slug')
+        subcategory_slug = self.kwargs.get('subcategory_slug')
+        if subcategory_slug:
+            products = Product.objects.filter(is_active=True, subcategory__slug=subcategory_slug)
+        elif category_slug:
+            products = Product.objects.filter(is_active=True, category__slug=category_slug)
+        else:
+            products = Product.objects.filter(is_active=True)
+        return products
 
 class ProductDetailView(generic.DetailView):
     template_name = 'product_detail.html'
