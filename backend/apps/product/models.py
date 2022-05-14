@@ -86,3 +86,19 @@ class Review(models.Model):
 
     def __str__(self):
         return f'{self.id}' # потому что id - это int, return должен возвращать str
+
+
+class BannerImage(models.Model):
+    name = models.CharField('Название', max_length=50)
+    image = models.ImageField(upload_to='banners/')
+    add_link = models.URLField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Картинка для баннера'
+        verbose_name_plural = 'Картинки для баннеров'
+        ordering = ['-created']
+
+    def __str__(self):
+        return self.name

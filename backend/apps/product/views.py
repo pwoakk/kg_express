@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 import json
-from .models import SubCategory, Product
+from .models import SubCategory, Product, BannerImage
 from django.views import generic
 # Create your views here.
 
@@ -16,6 +16,14 @@ def get_subcategory(request):
 class IndexPage(generic.TemplateView):
     template_name = "index.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        banners = BannerImage.objects.all()
+        if len(banners) > 6:
+            banners = banners[:6]
+        context['banners'] = banners
+        return context
+
 
 class ProductListView(generic.ListView):
     template_name = 'product_list.html'
@@ -24,7 +32,7 @@ class ProductListView(generic.ListView):
     # стандартное имя списка продуктов в шаблоне для ListView = object_list
 
     def get_queryset(self):
-        print(self.kwargs)
+        # print(self.kwargs)
         category_slug = self.kwargs.get('slug')
         subcategory_slug = self.kwargs.get('subcategory_slug')
         if subcategory_slug:
@@ -34,6 +42,7 @@ class ProductListView(generic.ListView):
         else:
             products = Product.objects.filter(is_active=True)
         return products
+
 
 class ProductDetailView(generic.DetailView):
     template_name = 'product_detail.html'
