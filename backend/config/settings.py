@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'backend.apps.accounts',
     'backend.apps.order',
     'backend.apps.product',
+    'backend.apps.cart',
 ]
 
 MIDDLEWARE = [
@@ -71,6 +72,7 @@ TEMPLATES = [
                 # my context-processors:
                 'backend.apps.product.category_context.get_categories',
                 'backend.apps.product.category_context.get_subcategories',
+                # 'backend.apps.cart.cart_context.get_cart',
             ],
         },
     },
@@ -142,3 +144,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+CART_SESSION_ID = 'cart'    # уникальный ключ для хранения корзины в сессиях
