@@ -72,7 +72,7 @@ TEMPLATES = [
                 # my context-processors:
                 'backend.apps.product.category_context.get_categories',
                 'backend.apps.product.category_context.get_subcategories',
-                # 'backend.apps.cart.cart_context.get_cart',
+                'backend.apps.cart.cart_context.get_cart',
             ],
         },
     },
@@ -147,3 +147,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 CART_SESSION_ID = 'cart'    # уникальный ключ для хранения корзины в сессиях
+SESSION_COOKIE_AGE = 1209600
