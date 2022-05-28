@@ -22,7 +22,7 @@ class LoginView(generic.FormView):
                 return redirect('index')
             else:
                 return HttpResponse('Ваш аккаунт неактивен')
-        return HttpResponse('Такого юзера не существует')
+        return HttpResponse('Такого пользователя не существует')
 
 
 class UserRegisterView(generic.CreateView):

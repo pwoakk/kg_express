@@ -43,7 +43,12 @@ INSTALLED_APPS = [
     'backend.apps.order',
     'backend.apps.product',
     'backend.apps.cart',
+
+    # installed apps
+    'ckeditor',
 ]
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

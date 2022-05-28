@@ -1,6 +1,15 @@
 from django.contrib import admin
-
+from ckeditor.widgets import CKEditorWidget
 from .models import *
+from django import forms
+
+
+class ProductAdminForm(forms.ModelForm):
+    description = forms.CharField(widget=CKEditorWidget())
+
+    class Meta:
+        model = Product
+        fields = '__all__'
 
 
 @admin.register(Category)
@@ -23,6 +32,7 @@ class SubCategory(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
+    form = ProductAdminForm
     list_display = [
         'name',
         'image',
