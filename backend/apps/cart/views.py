@@ -1,4 +1,4 @@
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.shortcuts import render, redirect
 
 from django.views import View
@@ -7,6 +7,7 @@ from django.views import View
 from .forms import CartAddForm
 from .cart import Cart
 from backend.apps.product.models import Product
+from ..order.forms import OrderForm
 
 
 class AddCartView(View):
@@ -24,7 +25,9 @@ class AddCartView(View):
 class CartDetailView(View):
 
     def get(self, request):
-        return render(self.request, "cart.html")
+        form = OrderForm()
+        context = {"form":form}
+        return render(self.request, "cart.html", context)
 
 
 class RemoveCartView(View):
@@ -45,3 +48,31 @@ class ClearCartView(View):
         cart = Cart(request)
         cart.clear()
         return redirect('cart_detail')
+
+
+def add_cart_product(request, pk):
+    if request.method == "POST":
+        try:
+            product = Product.objects.get(id=pk)
+        except Product.DoesNotExist:
+            raise Http404
+        cart = Cart(request)
+        cart.add(
+            product=product
+        )
+        return JsonResponse({"message": "Ok"}, status=200)
+    return JsonResponse({"message": "Bad Request"}, status=400)
+
+
+def minus_cart(request, pk):
+    if request.method == "POST":
+        try:
+            product = Product.objects.get(id=pk)
+        except Product.DoesNotExist:
+            raise Http404
+        cart = Cart(request)
+        cart.minus(
+            product=product
+        )
+        return JsonResponse({"message": "Ok"}, status=200)
+    return JsonResponse({"message": "Bad Request"}, status=400)

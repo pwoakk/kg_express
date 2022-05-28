@@ -27,7 +27,7 @@ class IndexPage(generic.TemplateView):
 
 class ProductListView(generic.ListView):
     template_name = 'product_list.html'
-    paginate_by = 10
+    paginate_by = 6
     model = Product
     # стандартное имя списка продуктов в шаблоне для ListView = object_list
 
