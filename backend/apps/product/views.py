@@ -1,6 +1,11 @@
+from django.db.models import Q
 from django.shortcuts import render
 from django.http import HttpResponse
 import json
+
+from django_filters.views import FilterView
+
+from .filters import ProductFilter
 from .models import SubCategory, Product, BannerImage
 from django.views import generic
 # Create your views here.
@@ -25,11 +30,12 @@ class IndexPage(generic.TemplateView):
         return context
 
 
-class ProductListView(generic.ListView):
+class ProductListView(FilterView):
     template_name = 'product_list.html'
     paginate_by = 6
     model = Product
     # стандартное имя списка продуктов в шаблоне для ListView = object_list
+    filterset_class = ProductFilter
 
     def get_queryset(self):
         # print(self.kwargs)
@@ -50,3 +56,27 @@ class ProductDetailView(generic.DetailView):
     context_object_name = 'product'     # стандартный это object
     # slug_field = 'id'
     # slug_url_kwarg = 'pk'     # под капотом DetailView сам вытаскивает pk
+
+
+class ProductSearchView(generic.ListView):
+    model = Product
+    template_name = 'product_list.html'
+    paginate_by = 6
+
+    def get_queryset(self):
+        search_text = self.request.GET.get('query')
+        if search_text is None:
+            return self.model.objects.filter(is_active=True)
+        queryset = self.model.objects.filter(
+            Q(name__icontains=search_text)
+            | Q(description__icontains=search_text)
+            | Q(category__name__icontains=search_text)
+        )
+        return queryset
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(ProductSearchView, self).get_context_data(**kwargs)
+        context['search'] = True
+        context['search_query'] = self.request.GET.get('query')
+        return context
+

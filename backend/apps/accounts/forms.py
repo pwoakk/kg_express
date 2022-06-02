@@ -35,6 +35,7 @@ class UserRegisterForm(UserCreationForm):
             'placeholder': 'Введите пароль'
         })
     )
+
     class Meta:
         model = User
         fields = [

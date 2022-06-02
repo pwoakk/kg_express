@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 
     # installed apps
     'ckeditor',
+    'django_filters',
 ]
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
