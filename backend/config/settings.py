@@ -43,10 +43,12 @@ INSTALLED_APPS = [
     'backend.apps.order',
     'backend.apps.product',
     'backend.apps.cart',
+    'backend.apps.api',
 
     # installed apps
     'ckeditor',
     'django_filters',
+    'rest_framework',
 ]
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
@@ -154,3 +156,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CART_SESSION_ID = 'cart'    # уникальный ключ для хранения корзины в сессиях
 SESSION_COOKIE_AGE = 1209600
+
+LOGIN_URL = 'sign_in'
